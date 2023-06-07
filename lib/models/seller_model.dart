@@ -29,15 +29,14 @@ class SellerModel {
     };
   }
 
-  factory SellerModel.fromSnapshot(
-      var document) {
+  factory SellerModel.fromSnapshot(var document) {
     final data = document.data();
     return SellerModel(
         id: document.id,
         name: data!["name"],
         phoneNumber: data!["phoneNumber"],
         email: data!["email"],
-        restaurants: data!["restaurants"],
+        restaurants: data!["restaurants"].cast<String>(),
         accountBalance: data!["accountBalance"]);
   }
 }

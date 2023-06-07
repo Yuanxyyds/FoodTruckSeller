@@ -10,7 +10,7 @@ import 'package:food_truck_mobile/widget/section_header_lr.dart';
 import 'package:food_truck_mobile/widget/text.dart';
 import 'package:provider/provider.dart';
 import '../helper/constants.dart';
-import '../widget/bottom_navigation.dart';
+import '../models/seller_model.dart';
 import '../widget/button.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -50,11 +50,8 @@ class _AccountScreenState extends State<AccountScreen> {
     return Scaffold(
         appBar: AppBar(
           title: const TextHeadlineSmall(
-            text: 'My Account',
+            text: 'My Seller',
           ),
-        ),
-        bottomNavigationBar: const BottomNavigation(
-          currentIndex: 3,
         ),
         body: Padding(
           padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
@@ -187,7 +184,7 @@ class _AccountScreenState extends State<AccountScreen> {
   Widget getAccountProfile(Auth auth) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('My Account'),
+        title: const Text('My Seller Account'),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
@@ -195,24 +192,21 @@ class _AccountScreenState extends State<AccountScreen> {
         },
         child: const Icon(Icons.remove),
       ),
-      bottomNavigationBar: const BottomNavigation(
-        currentIndex: 3,
-      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-        child: FutureBuilder<UserModel?>(
-          future: auth.getUserInfo(),
+        child: FutureBuilder<SellerModel?>(
+          future: auth.getSellerInfo(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               if (snapshot.hasData) {
-                UserModel userData = snapshot.data as UserModel;
+                SellerModel sellerData = snapshot.data as SellerModel;
                 return ListView(
                   children: [
-                    Center(
+                    const Center(
                       child: CircleAvatar(
                         radius: 60,
                         backgroundImage: AssetImage(
-                          userData.avatar,
+                          'images/UnknownUser.jpg',
                         ),
                       ),
                     ),
@@ -223,7 +217,7 @@ class _AccountScreenState extends State<AccountScreen> {
                           setState(() {
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => EditProfileScreen(
-                                      userModel: userData,
+                                      sellerModel: sellerData,
                                     )));
                           });
                         },
@@ -231,33 +225,24 @@ class _AccountScreenState extends State<AccountScreen> {
                     ),
                     const SizedBox(height: 16.0),
                     Text(
-                      userData.name, // Replace with the user's name
+                      sellerData.name, // Replace with the user's name
                       style:
                           TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 8.0),
                     Text(
-                      userData.email, // Replace with the user's email
+                      sellerData.email, // Replace with the user's email
                       style: TextStyle(fontSize: 16, color: Colors.grey),
                     ),
                     const SizedBox(height: 16.0),
                     ListTile(
                       leading: const Icon(Icons.phone),
-                      title: Text(userData.phoneNumber),
+                      title: Text(sellerData.phoneNumber),
                       // Replace with the user's phone number
                       onTap: () {
                         // Handle phone number tap
                       },
                     ),
-                    ListTile(
-                      leading: const Icon(Icons.location_on),
-                      title: Text(userData.address),
-                      // Replace with the user's location
-                      onTap: () {
-                        // Handle location tap
-                      },
-                    ),
-                    // Add more user information as needed
                   ],
                 );
               }
