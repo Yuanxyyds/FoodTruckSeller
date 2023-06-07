@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:food_truck_mobile/models/seller_model.dart';
 import 'package:food_truck_mobile/models/user_model.dart';
 
 /// The main Auth instance that stores the information of the current user
@@ -10,6 +11,7 @@ class Auth extends ChangeNotifier {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   User? get currentUser => _firebaseAuth.currentUser;
+
   Stream<User?> get authStateChanges => _firebaseAuth.authStateChanges();
 
   /// Sign in to the account by Email/Password
@@ -79,7 +81,7 @@ class Auth extends ChangeNotifier {
         timeInSecForIosWeb: 2,
         fontSize: 16.0,
       );
-      _initializeNewUser(email);
+      _initializeNewSeller(email);
     } catch (e) {
       String input = e.toString();
       String substring = input.substring(input.indexOf("]") + 1);
@@ -94,17 +96,15 @@ class Auth extends ChangeNotifier {
     notifyListeners();
   }
 
-
-
   /// Initialize the new user profile
-  Future<void> _initializeNewUser (String email) async {
+  Future<void> _initializeNewSeller(String email) async {
     try {
-      CollectionReference users = _firestore.collection('users');
-      DocumentReference userRef = users.doc(currentUser?.uid);
-      await userRef.set(
-          UserModel(id: currentUser?.uid, name: 'Users $email', email: email)
+      CollectionReference seller = _firestore.collection('sellers');
+      DocumentReference sellers = seller.doc(currentUser?.uid);
+      await sellers.set(
+          SellerModel(id: currentUser?.uid, name: 'Users $email', email: email)
               .toJson());
-    } catch (e){
+    } catch (e) {
       String input = e.toString();
       String substring = input.substring(input.indexOf("]") + 1);
       Fluttertoast.showToast(
@@ -118,11 +118,11 @@ class Auth extends ChangeNotifier {
   }
 
   /// Initialize the new user profile
-  Future<bool> updateUser(UserModel user) async {
+  Future<bool> updateSeller(SellerModel seller) async {
     try {
-      CollectionReference users = _firestore.collection('users');
-      DocumentReference userRef = users.doc(user.id);
-      await userRef.update(user.toJson());
+      CollectionReference sellers = _firestore.collection('sellers');
+      DocumentReference sellerRef = sellers.doc(seller.id);
+      await sellerRef.update(seller.toJson());
       Fluttertoast.showToast(
         msg: "Update Successfully",
         toastLength: Toast.LENGTH_SHORT,
@@ -189,28 +189,30 @@ class Auth extends ChangeNotifier {
     }
   }
 
-
-
-
-
-
   /// Return the Current User's information
-  Future<UserModel?> getUserInfo() async {
+  Future<SellerModel?> getSellerInfo() async {
     try {
-      CollectionReference users = _firestore.collection('users');
-      DocumentReference userRef = users.doc(currentUser?.uid);
-      var documentSnapshot = await userRef.get();
-      return UserModel.fromSnapshot(documentSnapshot);
+      CollectionReference sellers = _firestore.collection('sellers');
+      DocumentReference sellerRef = sellers.doc(currentUser?.uid);
+      var documentSnapshot = await sellerRef.get();
+      return SellerModel.fromSnapshot(documentSnapshot);
     } catch (e) {
-      String input = e.toString();
-      String substring = input.substring(input.indexOf("]") + 1);
-      Fluttertoast.showToast(
-        msg: "Fail to get user info: $substring",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
-        timeInSecForIosWeb: 2,
-        fontSize: 16.0,
-      );
+      if (e.toString().contains("Null check operator used on a null value")) {
+        _initializeNewSeller(currentUser!.email!);
+        getSellerInfo();
+      } else {
+        String input = e.toString();
+        String substring = input.substring(input.indexOf("]") + 1);
+        print(e);
+        Fluttertoast.showToast(
+          msg: "Fail to get user info: $substring",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 2,
+          fontSize: 16.0,
+        );
+      }
+
       return null;
     }
   }

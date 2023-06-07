@@ -5,7 +5,7 @@ import 'package:device_preview/device_preview.dart';
 import 'package:food_truck_mobile/firebase/auth.dart';
 import 'package:food_truck_mobile/helper/theme.dart';
 import 'package:food_truck_mobile/helper/user_location.dart';
-import 'package:food_truck_mobile/screen/home_screen.dart';
+import 'package:food_truck_mobile/screen/account_screen.dart';
 import 'package:provider/provider.dart';
 
 Future main() async {
@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: FoodTruckThemeData.themeData,
-      home: const HomeScreen(),
+      home: const AccountScreen(),
     );
   }
 }
