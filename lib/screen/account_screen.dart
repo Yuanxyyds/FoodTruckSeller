@@ -81,38 +81,13 @@ class _AccountScreenState extends State<AccountScreen> {
               ),
               const Center(
                 child: TextTitleMedium(
-                  text: 'a new Food Truck account.',
+                  text: 'a new seller account.',
                   padding: EdgeInsets.zero,
                 ),
               ),
-              const SizedBox(height: 8),
-              Button(
-                  text: 'Continue with Facebook',
-                  backgroundColor: const Color(0xFF1877F2),
-                  textColor: Constants.whiteColor,
-                  icon: Icons.facebook,
-                  takeLeastSpace: true,
-                  onPressed: () {}),
-              const SizedBox(height: 8),
-              Button(
-                text: 'Continue with Google',
-                textColor: Constants.whiteColor,
-                icon: GoogleIcon.google,
-                takeLeastSpace: true,
-                onPressed: () {},
-              ),
-              const SizedBox(height: 8),
-              Button(
-                text: 'Continue with Apple',
-                textColor: Constants.whiteColor,
-                backgroundColor: Constants.blackColor,
-                icon: Icons.apple,
-                takeLeastSpace: true,
-                onPressed: () {},
-              ),
               const SizedBox(height: 16),
               const SectionHeaderLR(
-                text: 'or log in using email',
+                text: 'log in using email',
               ),
               const SizedBox(height: 8),
               InputField(
