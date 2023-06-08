@@ -11,6 +11,7 @@ import 'package:food_truck_mobile/widget/text.dart';
 import 'package:provider/provider.dart';
 import '../helper/constants.dart';
 import '../models/seller_model.dart';
+import '../widget/bottom_navigation.dart';
 import '../widget/button.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -53,6 +54,7 @@ class _AccountScreenState extends State<AccountScreen> {
             text: 'My Seller',
           ),
         ),
+        bottomNavigationBar: const BottomNavigation(currentIndex: 2,),
         body: Padding(
           padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
           child: ListView(
@@ -186,6 +188,7 @@ class _AccountScreenState extends State<AccountScreen> {
       appBar: AppBar(
         title: const Text('My Seller Account'),
       ),
+      bottomNavigationBar: const BottomNavigation(currentIndex: 2,),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           await auth.signOut();
