@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:food_truck_mobile/firebase/auth.dart';
+import 'package:food_truck_mobile/firebase/auth_manager.dart';
 import 'package:food_truck_mobile/models/restaurant_model.dart';
-import 'package:food_truck_mobile/widget/create_restaurant_dialog.dart';
-import 'package:food_truck_mobile/widget/restaurant_button.dart';
-import 'package:food_truck_mobile/widget/section_divider.dart';
+import 'package:food_truck_mobile/widget/dialogs/create_restaurant_dialog.dart';
+import 'package:food_truck_mobile/widget/components/restaurant_button.dart';
+import 'package:food_truck_mobile/widget/dividers/section_divider.dart';
 import 'package:food_truck_mobile/widget/text.dart';
 import 'package:provider/provider.dart';
-import '../helper/constants.dart';
-import '../widget/bottom_navigation.dart';
-import '../widget/button.dart';
+import 'package:food_truck_mobile/helper/constants.dart';
+import 'package:food_truck_mobile/widget/components/bottom_navigation.dart';
+import 'package:food_truck_mobile/widget/components/button.dart';
+
+import 'package:food_truck_mobile/firebase/restaurant_manager.dart';
+
 
 /// The [MyRestaurantScreen] of this app, it has two screens: User Information
 /// Screen and the User Login Screen.
@@ -24,7 +27,9 @@ class _MyRestaurantScreenState extends State<MyRestaurantScreen> {
   /// Build the page based on if currentUser has an instance
   @override
   Widget build(BuildContext context) {
-    Auth auth = context.watch<Auth>();
+    AuthManager auth = context.watch<AuthManager>();
+    RestaurantManager res = context.watch<RestaurantManager>();
+
     return Scaffold(
       appBar: AppBar(
         title: const TextHeadlineSmall(
@@ -35,16 +40,16 @@ class _MyRestaurantScreenState extends State<MyRestaurantScreen> {
         currentIndex: 0,
       ),
       body: auth.currentUser != null
-          ? getContent(auth)
+          ? getContent(res, auth.currentUser!.uid)
           : const Center(child: TextHeadlineSmall(text: 'Login First!')),
     );
   }
 
-  Widget getContent(Auth auth) {
+  Widget getContent(RestaurantManager res, String uid) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
       child: FutureBuilder<List<Widget>>(
-          future: getMyRestaurants(auth),
+          future: getMyRestaurants(res, uid),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               return ListView(
@@ -59,7 +64,8 @@ class _MyRestaurantScreenState extends State<MyRestaurantScreen> {
                         context: context,
                         builder: (BuildContext context) {
                           return CreateRestaurantDialog(
-                            auth: auth,
+                            restaurantManager: res,
+                            uid: uid,
                           );
                         },
                       );
@@ -74,16 +80,16 @@ class _MyRestaurantScreenState extends State<MyRestaurantScreen> {
     );
   }
 
-  Future<List<Widget>> getMyRestaurants(Auth auth) async {
+  Future<List<Widget>> getMyRestaurants(RestaurantManager res, String uid) async {
     List<Widget> myRestaurants = <Widget>[];
-    List<RestaurantModel>? restaurants = await auth.getOwnedRestaurant();
+    List<RestaurantModel>? restaurants = await res.getOwnedRestaurant(uid);
     if (restaurants == null) {
       return myRestaurants;
     } else {
       for (var resModel in restaurants) {
         myRestaurants.add(RestaurantButton(
-          restaurantName: resModel.name,
-          label: resModel.isOpen.toString(),
+          resModel: resModel,
+          res: res,
         ));
         myRestaurants.add(const SectionDivider());
       }

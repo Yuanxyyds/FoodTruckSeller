@@ -8,6 +8,7 @@ class FoodModel {
   double price;
   String foodUrl;
   Map<String, double> topping;
+  String sectionId;
 
   FoodModel({
     required this.id,
@@ -16,9 +17,10 @@ class FoodModel {
     required this.price,
     this.foodUrl = 'images/DefaultRestaurantImage.jpeg',
     this.topping = const <String, double>{},
+    required this.sectionId,
   });
 
-  void addTopping(String name, double price){
+  void addOrUpdateTopping(String name, double price){
     topping?['name'] = price;
   }
 
@@ -35,6 +37,7 @@ class FoodModel {
       "price": price,
       "foodUrl": foodUrl,
       'topping': topping,
+      'sectionId' : sectionId,
     };
     return jsonMap;
   }
@@ -48,6 +51,7 @@ class FoodModel {
         price: data!["price"],
         foodUrl: data!["foodUrl"],
         topping: data!['toppings'],
+        sectionId: data!['sectionId'],
     );
   }
 }

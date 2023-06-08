@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:food_truck_mobile/widget/button.dart';
+import 'package:food_truck_mobile/widget/components/button.dart';
 import 'package:provider/provider.dart';
+import 'package:food_truck_mobile/firebase/auth_manager.dart';
+import 'package:food_truck_mobile/models/seller_model.dart';
+import 'package:food_truck_mobile/models/user_model.dart';
+import 'package:food_truck_mobile/widget/components/input_field.dart';
 
-import '../firebase/auth.dart';
-import '../models/seller_model.dart';
-import '../models/user_model.dart';
-import '../widget/input_field.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({Key? key, required this.sellerModel})
@@ -44,7 +44,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Auth auth = context.watch<Auth>();
+    AuthManager auth = context.watch<AuthManager>();
     _nameEditingController.text = widget.sellerModel.name;
     _emailEditingController.text = widget.sellerModel.email;
     _phoneNumberEditingController.text = widget.sellerModel.phoneNumber;

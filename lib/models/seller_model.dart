@@ -7,7 +7,6 @@ class SellerModel {
   String phoneNumber;
   String email;
   double accountBalance;
-  List<String> restaurants;
 
   SellerModel({
     required this.id,
@@ -15,7 +14,6 @@ class SellerModel {
     this.phoneNumber = 'Click to set your phone number',
     required this.email,
     this.accountBalance = 0,
-    this.restaurants = const <String>[],
   });
 
   Map<String, dynamic> toJson() {
@@ -25,7 +23,6 @@ class SellerModel {
       "phoneNumber": phoneNumber,
       "email": email,
       "accountBalance": accountBalance,
-      "restaurants": restaurants,
     };
   }
 
@@ -36,7 +33,6 @@ class SellerModel {
         name: data!["name"],
         phoneNumber: data!["phoneNumber"],
         email: data!["email"],
-        restaurants: data!["restaurants"].cast<String>(),
         accountBalance: data!["accountBalance"]);
   }
 }

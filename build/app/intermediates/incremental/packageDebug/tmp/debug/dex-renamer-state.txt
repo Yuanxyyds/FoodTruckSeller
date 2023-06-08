@@ -1,4 +1,4 @@
-#Thu Jun 08 00:50:44 EDT 2023
+#Thu Jun 08 20:02:46 EDT 2023
 base.0=/Users/liustev6/Documents/Github/foodtruckseller/build/app/intermediates/dex/debug/mergeExtDexDebug/classes.dex
 base.1=/Users/liustev6/Documents/Github/foodtruckseller/build/app/intermediates/dex/debug/mergeLibDexDebug/0/classes.dex
 base.2=/Users/liustev6/Documents/Github/foodtruckseller/build/app/intermediates/dex/debug/mergeProjectDexDebug/0/classes.dex
