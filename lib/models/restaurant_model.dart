@@ -4,9 +4,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class RestaurantModel {
   String? id;
   String name;
-  String description;
+  String? description;
   bool isOpen;
-  String address;
+  String? address;
   String restaurantUrl;
   String area;
   List<String> section;
@@ -15,7 +15,7 @@ class RestaurantModel {
     required this.id,
     required this.name,
     this.description = 'Description not set',
-    this.isOpen = true,
+    this.isOpen = false,
     this.address = 'UofT',
     this.restaurantUrl = 'images/DefaultRestaurantImage.jpeg',
     this.area = 'UofT',
@@ -51,7 +51,7 @@ class RestaurantModel {
       address: data!["address"],
       restaurantUrl: data!['restaurantUrl'],
       area: data!["area"],
-      section: data!['section'],
+      section: data!['section'].cast<String>(),
     );
   }
 }
