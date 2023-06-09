@@ -9,7 +9,6 @@ class RestaurantModel {
   String? address;
   String restaurantUrl;
   String area;
-  List<String> section;
 
   RestaurantModel({
     required this.id,
@@ -19,12 +18,7 @@ class RestaurantModel {
     this.address = 'UofT',
     this.restaurantUrl = 'images/DefaultRestaurantImage.jpeg',
     this.area = 'UofT',
-    this.section = const <String>[],
   });
-
-  void addSection(String sectionId){
-    section.add(sectionId);
-  }
 
 
   Map<String, dynamic> toJson() {
@@ -36,7 +30,6 @@ class RestaurantModel {
       "address": address,
       'restaurantUrl': restaurantUrl,
       "area": area,
-      'section': section,
     };
     return jsonMap;
   }
@@ -51,7 +44,6 @@ class RestaurantModel {
       address: data!["address"],
       restaurantUrl: data!['restaurantUrl'],
       area: data!["area"],
-      section: data!['section'].cast<String>(),
     );
   }
 }

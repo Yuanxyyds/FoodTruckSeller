@@ -3,12 +3,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 /// The [SectionModel]
 class SectionModel {
   String? id;
-  String label;
+  String name;
   List<String> foodItems;
 
   SectionModel({
     required this.id,
-    this.label = "Uncategorized",
+    required this.name,
     this.foodItems = const <String>[],
   });
 
@@ -24,7 +24,7 @@ class SectionModel {
   Map<String, dynamic> toJson() {
     Map<String, dynamic> jsonMap = {
       "id": id,
-      "label": label,
+      "label": name,
       "foodItems": foodItems,
     };
     return jsonMap;
@@ -34,8 +34,8 @@ class SectionModel {
     final data = document.data();
     return SectionModel(
       id: document.id,
-      label: data!["label"],
-      foodItems: data!["foodItems"],
+      name: data!["label"],
+      foodItems: data!["foodItems"].cast<String>(),
     );
   }
 }
