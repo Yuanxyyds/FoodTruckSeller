@@ -21,11 +21,11 @@ class FoodModel {
   });
 
   void addOrUpdateTopping(String name, double price){
-    topping?['name'] = price;
+    topping[name] = price;
   }
 
   void removeTopping(String name){
-    topping?.remove('name');
+    topping.remove(name);
   }
 
 

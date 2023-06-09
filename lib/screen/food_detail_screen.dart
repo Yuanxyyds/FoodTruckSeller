@@ -1,32 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:food_truck_mobile/firebase/food_manager.dart';
+import 'package:food_truck_mobile/models/food_model.dart';
 import 'package:food_truck_mobile/widget/components/add_topping.dart';
 import 'package:food_truck_mobile/widget/components/button.dart';
+import 'package:food_truck_mobile/widget/dialogs/create_topping_dialog.dart';
 import 'package:food_truck_mobile/widget/text.dart';
 import 'package:food_truck_mobile/helper/constants.dart';
 import 'package:food_truck_mobile/widget/decorations/popular_tag.dart';
 import 'package:food_truck_mobile/widget/dividers/section_divider.dart';
-
+import 'package:provider/provider.dart';
 
 class FoodDetailScreen extends StatefulWidget {
-  final String? imageUrl;
-  final String foodName;
-  final String description;
-  final double price;
+  final FoodModel foodModel;
   final bool isPopular;
-  final List<List> toppings;
 
   const FoodDetailScreen(
-      {Key? key,
-      required this.imageUrl,
-      required this.foodName,
-      required this.description,
-      required this.price,
-      required this.isPopular,
-      this.toppings = const [
-        ["Avocado", 0.99],
-        ["Chili peppers", 0.99],
-        ["Vegan mayo", 0.99]
-      ]})
+      {Key? key, required this.isPopular, required this.foodModel})
       : super(key: key);
 
   @override
@@ -34,105 +23,114 @@ class FoodDetailScreen extends StatefulWidget {
 }
 
 class _FoodDetailScreenState extends State<FoodDetailScreen> {
-  int count = 1;
-
-  // Ternary operator to get Url, simplifying build method
-  String getImageUrlOrDefault() {
-    return widget.imageUrl ?? 'images/DefaultRestaurantImage.jpeg';
-  }
-
-  double calculateSubtotal() {
-    return count * widget.price;
-  }
-
   @override
   Widget build(BuildContext context) {
-    double subtotal = calculateSubtotal();
-    String url = getImageUrlOrDefault();
-    Color removeColor = count == 1 ? Colors.grey : Colors.black;
-
+    FoodManager foodManager = context.watch<FoodManager>();
     return Scaffold(
-        appBar: AppBar(
-          title: Text(widget.foodName),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
-          child: ListView(
-            children: [
-              Container(
-                height: 185,
-                decoration: BoxDecoration(
-                  color: Colors.transparent,
-                  borderRadius: BorderRadius.circular(8),
-                  image: DecorationImage(
-                    image: AssetImage(url),
-                    fit: BoxFit.fill,
-                  ),
+      appBar: AppBar(
+        title: Text(widget.foodModel.name),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
+        child: ListView(
+          children: [
+            Container(
+              height: 185,
+              decoration: BoxDecoration(
+                color: Colors.transparent,
+                borderRadius: BorderRadius.circular(8),
+                image: DecorationImage(
+                  image: AssetImage(widget.foodModel.foodUrl),
+                  fit: BoxFit.fill,
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: TextTitleLarge(
-                        text: widget.foodName,
-                        isBold: true,
-                      ),
-                    ),
-                    if (widget.isPopular) const PopularTag()
-                  ],
-                ),
-              ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10.0),
+              child: Row(
                 children: [
                   Expanded(
-                    flex: 7,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 4.0),
-                      child: Text(
-                        widget.description,
-                      ),
+                    child: TextTitleLarge(
+                      text: widget.foodModel.name,
+                      isBold: true,
                     ),
                   ),
-                  Expanded(
-                    flex: 3,
-                    child: Align(
-                        alignment: Alignment.topRight,
-                        child: TextTitleMedium(
-                          text: '\$ ${widget.price.toStringAsFixed(2)}',
-                          isBold: true,
-                          padding: EdgeInsets.zero,
-                        )),
-                  ),
+                  if (widget.isPopular) const PopularTag()
                 ],
               ),
-              const SectionDivider(),
-              const TextTitleMedium(
-                text: "Toppings",
-                isBold: true,
-              ),
-              const Padding(
-                padding: EdgeInsets.only(left: 4.0, top: 8.0, bottom: 8.0),
-                child: Text("Choose up to 4 additional items."),
-              ),
-              ..._getContent(),
-              const SizedBox(
-                height: 130.0,
-              ),
-            ],
-          ),
+            ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  flex: 7,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 4.0),
+                    child: Text(
+                      widget.foodModel.description,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex: 3,
+                  child: Align(
+                      alignment: Alignment.topRight,
+                      child: TextTitleMedium(
+                        text: '\$ ${widget.foodModel.price.toStringAsFixed(2)}',
+                        isBold: true,
+                        padding: EdgeInsets.zero,
+                      )),
+                ),
+              ],
+            ),
+            const SectionDivider(),
+            Row(
+              children: [
+                const Expanded(
+                  flex: 6,
+                  child: TextTitleMedium(
+                    text: "Toppings",
+                    isBold: true,
+                  ),
+                ),
+                Expanded(
+                    flex: 1,
+                    child: IconButton(
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return CreateToppingDialog(
+                                foodManager: foodManager,
+                                foodModel: widget.foodModel,
+                              );
+                            },
+                          );
+                        },
+                        icon: const Icon(Icons.add)))
+              ],
+            ),
+            ..._getContent(foodManager),
+            const SizedBox(
+              height: 130.0,
+            ),
+          ],
         ),
+      ),
 
-        // Subtotal information fixed at bottom
-        );
+      // Subtotal information fixed at bottom
+    );
   }
 
-  List<Widget> _getContent() {
+  List<Widget> _getContent(FoodManager foodManager) {
     List<Widget> content = [];
-    for (var element in widget.toppings) {
-      content.add(AdditionFood(name: element[0], price: element[1]));
+    for (var element in widget.foodModel.topping.keys) {
+      content.add(AddTopping(
+        name: element,
+        price: widget.foodModel.topping[element]!,
+        foodManager: foodManager,
+        foodModel: widget.foodModel,
+      ));
     }
 
     return content;
