@@ -2,27 +2,23 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:food_truck_mobile/firebase/section_manager.dart';
+import 'package:food_truck_mobile/models/food_model.dart';
 import 'package:food_truck_mobile/models/restaurant_model.dart';
 import 'package:food_truck_mobile/models/section_model.dart';
 import 'package:food_truck_mobile/models/seller_model.dart';
 import 'package:food_truck_mobile/models/user_model.dart';
 
-import '../models/food_model.dart';
-import 'food_manager.dart';
-
 /// The main Auth instance that stores the information of the current user
-class RestaurantManager extends ChangeNotifier {
+class FoodManager extends ChangeNotifier {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  /// Return the Current User's information
-  Future<void> createRestaurant(RestaurantModel restaurantModel) async {
-    try {
-      String restaurantId = restaurantModel.id!;
-      CollectionReference res = _firestore.collection('restaurants');
-      DocumentReference resRef = res.doc(restaurantId);
-      await resRef.set(restaurantModel.toJson());
 
+  /// Return the Current User's information
+  Future<void> createFood(FoodModel foodModel) async {
+    try {
+      CollectionReference food = _firestore.collection('foods');
+      DocumentReference foodRef = food.doc(foodModel.id);
+      await foodRef.set(foodModel.toJson());
       Fluttertoast.showToast(
         msg: "Success",
         toastLength: Toast.LENGTH_SHORT,
@@ -35,7 +31,7 @@ class RestaurantManager extends ChangeNotifier {
       String input = e.toString();
       String substring = input.substring(input.indexOf("]") + 1);
       Fluttertoast.showToast(
-        msg: "Fail to create restaurant: $substring",
+        msg: "Fail to create food: $substring",
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.CENTER,
         timeInSecForIosWeb: 2,
@@ -45,11 +41,11 @@ class RestaurantManager extends ChangeNotifier {
   }
 
   /// Return the Current User's information
-  Future<void> updateRestaurant(RestaurantModel restaurantModel) async {
+  Future<void> updateFood(FoodModel foodModel) async {
     try {
-      CollectionReference res = _firestore.collection('restaurants');
-      DocumentReference resRef = res.doc(restaurantModel.id);
-      await resRef.update(restaurantModel.toJson());
+      CollectionReference food = _firestore.collection('foods');
+      DocumentReference foodRef = food.doc(foodModel.id);
+      await foodRef.update(foodModel.toJson());
       Fluttertoast.showToast(
         msg: "Success",
         toastLength: Toast.LENGTH_SHORT,
@@ -62,7 +58,7 @@ class RestaurantManager extends ChangeNotifier {
       String input = e.toString();
       String substring = input.substring(input.indexOf("]") + 1);
       Fluttertoast.showToast(
-        msg: "Fail to update restaurant: $substring",
+        msg: "Fail to update food: $substring",
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.CENTER,
         timeInSecForIosWeb: 2,
@@ -72,23 +68,23 @@ class RestaurantManager extends ChangeNotifier {
   }
 
   /// Return the Current User's information
-  Future<List<RestaurantModel>?> getOwnedRestaurant(String uid) async {
+  Future<List<FoodModel>?> getFoodByRestaurant(String restaurantId) async {
     try {
-      List<RestaurantModel> myRestaurants = <RestaurantModel>[];
+      List<FoodModel> myFoods = <FoodModel>[];
       final QuerySnapshot snapshot = await FirebaseFirestore.instance
-          .collection('restaurants') // Replace with your collection name
-          .where(FieldPath.documentId, isGreaterThanOrEqualTo: uid)
-          .where(FieldPath.documentId, isLessThanOrEqualTo: '${uid}z')
+          .collection('foods') // Replace with your collection name
+          .where(FieldPath.documentId, isGreaterThanOrEqualTo: restaurantId)
+          .where(FieldPath.documentId, isLessThanOrEqualTo: '${restaurantId}z')
           .get();
       for (var document in snapshot.docs) {
-        myRestaurants.add(RestaurantModel.fromSnapshot(document));
+        myFoods.add(FoodModel.fromSnapshot(document));
       }
-      return myRestaurants;
+      return myFoods;
     } catch (e) {
       String input = e.toString();
       String substring = input.substring(input.indexOf("]") + 1);
       Fluttertoast.showToast(
-        msg: "Fail to get restaurants: $substring",
+        msg: "Fail to get food: $substring",
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.CENTER,
         timeInSecForIosWeb: 2,
@@ -98,20 +94,36 @@ class RestaurantManager extends ChangeNotifier {
     return null;
   }
 
-  Future<void> deleteRestaurant(String id) async {
+  /// Return the Current User's information
+  Future<List<FoodModel>?> getFoodBySection(String sectionId) async {
     try {
-      FoodManager foodManager = FoodManager();
-      List<FoodModel>? foods = await foodManager.getFoodByRestaurant(id);
-      foods!.forEach((foodModel) {
-        foodManager.deleteFood(foodModel.id!);
-      });
-      SectionManager sectionManager = SectionManager();
-      List<SectionModel>? sections = await sectionManager.getOwnedSection(id);
-      sections!.forEach((sectionModel) {
-        sectionManager.deleteSection(sectionModel.id!);
-      });
+      List<FoodModel> myFoods = <FoodModel>[];
+      final QuerySnapshot snapshot = await FirebaseFirestore.instance
+          .collection('foods') // Replace with your collection name
+          .where('sectionId', isEqualTo: sectionId)
+          .get();
+      for (var document in snapshot.docs) {
+        myFoods.add(FoodModel.fromSnapshot(document));
+      }
+      return myFoods;
+    } catch (e) {
+      String input = e.toString();
+      String substring = input.substring(input.indexOf("]") + 1);
+      Fluttertoast.showToast(
+        msg: "Fail to get food: $substring",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 2,
+        fontSize: 16.0,
+      );
+    }
+    return null;
+  }
+
+  Future<void> deleteFood(String id) async {
+    try {
       await FirebaseFirestore.instance
-          .collection('restaurants')
+          .collection('foods')
           .doc(id)
           .delete();
       Fluttertoast.showToast(
@@ -134,4 +146,7 @@ class RestaurantManager extends ChangeNotifier {
       );
     }
   }
+
+
+
 }

@@ -89,7 +89,7 @@ class _MyRestaurantScreenState extends State<MyRestaurantScreen> {
       for (var resModel in restaurants) {
         myRestaurants.add(RestaurantButton(
           resModel: resModel,
-          res: res,
+          restaurantManager: res,
         ));
         myRestaurants.add(const SectionDivider());
       }

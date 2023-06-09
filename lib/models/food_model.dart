@@ -50,7 +50,7 @@ class FoodModel {
         description: data!["description"],
         price: data!["price"],
         foodUrl: data!["foodUrl"],
-        topping: data!['toppings'],
+        topping: data!['toppings'] ?? <String, double>{},
         sectionId: data!['sectionId'],
     );
   }

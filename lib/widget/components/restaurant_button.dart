@@ -14,11 +14,11 @@ class RestaurantButton extends StatelessWidget {
   const RestaurantButton({
     super.key,
     required this.resModel,
-    required this.res,
+    required this.restaurantManager,
   });
 
   final RestaurantModel resModel;
-  final RestaurantManager res;
+  final RestaurantManager restaurantManager;
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +102,7 @@ class RestaurantButton extends StatelessWidget {
                                   builder: (BuildContext context) {
                                     return DeleteConfirmationDialog(
                                       onDelete: () async {
-                                        await res
+                                        await restaurantManager
                                             .deleteRestaurant(resModel.id!);
                                         if (context.mounted) {
                                           Navigator.of(context).pop();

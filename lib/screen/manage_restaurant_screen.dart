@@ -6,6 +6,7 @@ import 'package:food_truck_mobile/firebase/section_manager.dart';
 import 'package:food_truck_mobile/firebase/restaurant_manager.dart';
 import 'package:food_truck_mobile/models/restaurant_model.dart';
 import 'package:food_truck_mobile/widget/components/food_button.dart';
+import 'package:food_truck_mobile/widget/dialogs/create_food_dialog.dart';
 import 'package:food_truck_mobile/widget/dialogs/create_section_dialog.dart';
 import 'package:food_truck_mobile/widget/dialogs/edit_restaurant_dialog.dart';
 import 'package:food_truck_mobile/widget/dividers/menu_section_divider.dart';
@@ -17,6 +18,9 @@ import 'package:food_truck_mobile/widget/components/button.dart';
 import 'package:provider/provider.dart';
 
 import 'package:food_truck_mobile/models/section_model.dart';
+import 'package:food_truck_mobile/firebase/food_manager.dart';
+
+import 'package:food_truck_mobile/models/food_model.dart';
 
 /// The [ManageRestaurantScreen], the parameter should be future changes to a
 /// Restaurant Model
@@ -24,8 +28,9 @@ import 'package:food_truck_mobile/models/section_model.dart';
 class ManageRestaurantScreen extends StatelessWidget {
   final RestaurantModel resModel;
   final double restaurantRating;
+  List<SectionModel>? sections;
 
-  const ManageRestaurantScreen({
+  ManageRestaurantScreen({
     super.key,
     required this.resModel,
     // TODO rating
@@ -34,8 +39,10 @@ class ManageRestaurantScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SectionManager sec = context.watch<SectionManager>();
-    RestaurantManager res = context.watch<RestaurantManager>();
+    SectionManager sectionManager = context.watch<SectionManager>();
+    RestaurantManager restaurantManager = context.watch<RestaurantManager>();
+    FoodManager foodManager = context.watch<FoodManager>();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Menu'),
@@ -43,7 +50,7 @@ class ManageRestaurantScreen extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
         child: FutureBuilder<List<Widget>>(
-            future: _getContent(sec, resModel.id!),
+            future: _getContent(sectionManager, foodManager, resModel.id!),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
                 return ListView(
@@ -75,7 +82,7 @@ class ManageRestaurantScreen extends StatelessWidget {
                               context: context,
                               builder: (BuildContext context) {
                                 return EditRestaurantDialog(
-                                  restaurantManager: res,
+                                  restaurantManager: restaurantManager,
                                   restaurantModel: resModel,
                                 );
                               },
@@ -86,11 +93,12 @@ class ManageRestaurantScreen extends StatelessWidget {
                     ),
                     TextTitleSmall(
                       text: resModel.address!,
-                      padding: EdgeInsets.only(bottom: 10),
+                      padding: const EdgeInsets.only(bottom: 10),
                     ),
                     TextTitleSmall(
                       text: resModel.description!,
-                      padding: EdgeInsets.only(bottom: 10),
+                      padding: const EdgeInsets.only(bottom: 10),
+                      maxLine: 3,
                     ),
                     Row(
                       children: [
@@ -104,7 +112,7 @@ class ManageRestaurantScreen extends StatelessWidget {
                                 context: context,
                                 builder: (BuildContext context) {
                                   return CreateSectionDialog(
-                                    sectionManager: sec,
+                                    sectionManager: sectionManager,
                                     restaurantId: resModel.id!,
                                   );
                                 },
@@ -120,7 +128,18 @@ class ManageRestaurantScreen extends StatelessWidget {
                             icon: Icons.fastfood,
                             textColor: Constants.whiteColor,
                             text: 'Add Food',
-                            onPressed: () {},
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return CreateFoodDialog(
+                                    foodManager: foodManager,
+                                    uid: resModel.id!,
+                                    sections: sections!,
+                                  );
+                                },
+                              );
+                            },
                           ),
                         )
                       ],
@@ -138,15 +157,28 @@ class ManageRestaurantScreen extends StatelessWidget {
   }
 
   /// TODO: This should be future rebuild based on Section + items
-  Future<List<Widget>> _getContent(
-      SectionManager sec, String restaurantId) async {
+  Future<List<Widget>> _getContent(SectionManager sectionManager,
+      FoodManager foodManager, String restaurantId) async {
     List<Widget> content = [];
-    List<SectionModel>? section = await sec.getOwnedSection(restaurantId);
+    List<SectionModel>? section =
+        await sectionManager.getOwnedSection(restaurantId);
+    List<FoodModel>? foods =
+        await foodManager.getFoodByRestaurant(restaurantId);
+    sections = section;
     for (var sectionModel in section!) {
       content.add(MenuSectionDivider(
-        sectionManager: sec,
+        sectionManager: sectionManager,
         sectionModel: sectionModel,
       ));
+      for (var foodModel in foods!) {
+        if (foodModel.sectionId == sectionModel.id) {
+          content.add(FoodButton(
+            foodModel: foodModel,
+            foodManager: foodManager,
+            sections: section,
+          ));
+        }
+      }
     }
 
     return content;

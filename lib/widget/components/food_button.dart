@@ -1,26 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:food_truck_mobile/firebase/food_manager.dart';
 import 'package:food_truck_mobile/helper/constants.dart';
+import 'package:food_truck_mobile/models/food_model.dart';
 import 'package:food_truck_mobile/screen/food_detail_screen.dart';
 import 'package:food_truck_mobile/screen/manage_restaurant_screen.dart';
 import 'package:food_truck_mobile/widget/decorations/popular_tag.dart';
+import 'package:food_truck_mobile/widget/dialogs/edit_food_dialog.dart';
 import 'package:food_truck_mobile/widget/text.dart';
+
+import 'package:food_truck_mobile/models/section_model.dart';
 
 /// This class contains a [FoodButton] that can be pressed to view the food's
 /// details
 class FoodButton extends StatelessWidget {
   const FoodButton(
       {super.key,
-      this.imageUrl,
-      required this.foodName,
-      required this.description,
-      required this.price,
-      this.isPopular = true});
+      this.isPopular = true,
+      required this.foodModel,
+      required this.foodManager,
+      required this.sections});
 
-  final String? imageUrl;
-  final String foodName;
-  final String description;
-  final double price;
+  final FoodModel foodModel;
   final bool isPopular;
+
+  // TODO Edit Food
+  final FoodManager foodManager;
+  final List<SectionModel>? sections;
 
   @override
   Widget build(BuildContext context) {
@@ -32,10 +37,10 @@ class FoodButton extends StatelessWidget {
             PageRouteBuilder(
               pageBuilder: (context, animation, secondaryAnimation) =>
                   FoodDetailScreen(
-                      imageUrl: imageUrl,
-                      foodName: foodName,
-                      description: description,
-                      price: price,
+                      imageUrl: foodModel.foodUrl,
+                      foodName: foodModel.name,
+                      description: foodModel.description,
+                      price: foodModel.price,
                       isPopular: isPopular),
               transitionDuration: Duration.zero,
             ),
@@ -55,14 +60,14 @@ class FoodButton extends StatelessWidget {
                     Align(
                       alignment: Alignment.topLeft,
                       child: TextTitleSmall(
-                        text: foodName,
+                        text: foodModel.name,
                         isBold: true,
                       ),
                     ),
                     Align(
                       alignment: Alignment.topLeft,
                       child: TextLabelSmall(
-                        text: description,
+                        text: foodModel.description,
                         padding: const EdgeInsets.symmetric(
                           horizontal: 4,
                         ),
@@ -76,10 +81,28 @@ class FoodButton extends StatelessWidget {
                           children: [
                             Expanded(
                                 child: TextTitleSmall(
-                              text: '\$ $price',
+                              text: '\$ ${foodModel.price}',
                               isBold: true,
                             )),
                             if (isPopular) const PopularTag(),
+                            Expanded(
+                              flex: 1,
+                              child: IconButton(
+                                icon: const Icon(Icons.edit),
+                                onPressed: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return EditFoodDialog(
+                                        foodManager: foodManager,
+                                        foodModel: foodModel,
+                                        sections: sections!,
+                                      );
+                                    },
+                                  );
+                                },
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -87,8 +110,10 @@ class FoodButton extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(width: 8,),
-              if (imageUrl == null)
+              const SizedBox(
+                width: 8,
+              ),
+              if (foodModel.foodUrl == null)
                 Expanded(
                   flex: 1,
                   child: Container(
@@ -104,16 +129,16 @@ class FoodButton extends StatelessWidget {
                     ),
                   ),
                 ),
-              if (imageUrl != null)
+              if (foodModel.foodUrl != null)
                 Expanded(
-                  flex: 2,
+                  flex: 1,
                   child: Container(
                     height: 125,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
                       image: DecorationImage(
-                        image: NetworkImage(
-                          imageUrl!,
+                        image: AssetImage(
+                          foodModel.foodUrl!,
                         ),
                         fit: BoxFit.fill,
                       ),

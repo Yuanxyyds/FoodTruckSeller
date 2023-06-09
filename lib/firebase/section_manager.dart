@@ -1,11 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:food_truck_mobile/models/restaurant_model.dart';
+import 'package:food_truck_mobile/firebase/food_manager.dart';
 import 'package:food_truck_mobile/models/section_model.dart';
-import 'package:food_truck_mobile/models/seller_model.dart';
-import 'package:food_truck_mobile/models/user_model.dart';
+import 'package:food_truck_mobile/models/food_model.dart';
 
 /// The main Auth instance that stores the information of the current user
 class SectionManager extends ChangeNotifier {
@@ -95,6 +93,11 @@ class SectionManager extends ChangeNotifier {
 
   Future<void> deleteSection(String id) async {
     try {
+      FoodManager foodManager = FoodManager();
+      List<FoodModel>? model = await foodManager.getFoodBySection(id);
+      if (model!.isNotEmpty){
+        throw Exception('] Move food into other section first!');
+      }
       await FirebaseFirestore.instance
           .collection('sections')
           .doc(id)

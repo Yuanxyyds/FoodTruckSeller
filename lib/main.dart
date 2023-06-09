@@ -8,7 +8,7 @@ import 'package:food_truck_mobile/helper/theme.dart';
 import 'package:food_truck_mobile/helper/user_location.dart';
 import 'package:food_truck_mobile/screen/account_screen.dart';
 import 'package:provider/provider.dart';
-
+import 'firebase/food_manager.dart';
 import 'firebase/section_manager.dart';
 
 Future main() async {
@@ -22,6 +22,7 @@ Future main() async {
     ChangeNotifierProvider(create: (_) => AuthManager()),
     ChangeNotifierProvider(create: (_) => RestaurantManager()),
     ChangeNotifierProvider(create: (_) => SectionManager()),
+    ChangeNotifierProvider(create: (_) => FoodManager()),
     ChangeNotifierProvider(create: (_) => UserLocation())
   ], child: const MyApp()));
 }
