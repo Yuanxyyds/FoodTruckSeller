@@ -12,7 +12,6 @@ import 'package:food_truck_mobile/models/user_model.dart';
 class FoodManager extends ChangeNotifier {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-
   /// Return the Current User's information
   Future<void> createFood(FoodModel foodModel) async {
     try {
@@ -122,10 +121,7 @@ class FoodManager extends ChangeNotifier {
 
   Future<void> deleteFood(String id) async {
     try {
-      await FirebaseFirestore.instance
-          .collection('foods')
-          .doc(id)
-          .delete();
+      await FirebaseFirestore.instance.collection('foods').doc(id).delete();
       Fluttertoast.showToast(
         msg: "Success",
         toastLength: Toast.LENGTH_SHORT,
@@ -147,6 +143,84 @@ class FoodManager extends ChangeNotifier {
     }
   }
 
+  /// Return the Current User's information
+  Future<void> addTopping(
+      FoodModel foodModel, String name, double price) async {
+    try {
+      foodModel.addOrUpdateTopping(name, price);
+      await updateFood(foodModel);
+      Fluttertoast.showToast(
+        msg: "Success",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 2,
+        fontSize: 16.0,
+      );
+      notifyListeners();
+    } catch (e) {
+      String input = e.toString();
+      String substring = input.substring(input.indexOf("]") + 1);
+      Fluttertoast.showToast(
+        msg: "Fail to add topping: $substring",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 2,
+        fontSize: 16.0,
+      );
+    }
+  }
 
+  /// Return the Current User's information
+  Future<void> updateTopping(
+      FoodModel foodModel, String name, double price, String oldName) async {
+    try {
+      foodModel.removeTopping(oldName);
+      foodModel.addOrUpdateTopping(name, price);
+      await updateFood(foodModel);
+      Fluttertoast.showToast(
+        msg: "Success",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 2,
+        fontSize: 16.0,
+      );
+      notifyListeners();
+    } catch (e) {
+      String input = e.toString();
+      String substring = input.substring(input.indexOf("]") + 1);
+      Fluttertoast.showToast(
+        msg: "Fail to add topping: $substring",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 2,
+        fontSize: 16.0,
+      );
+    }
+  }
 
+  /// Return the Current User's information
+  Future<void> deleteTopping(FoodModel foodModel, String name) async {
+    try {
+      foodModel.removeTopping(name);
+      await updateFood(foodModel);
+      Fluttertoast.showToast(
+        msg: "Success",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 2,
+        fontSize: 16.0,
+      );
+      notifyListeners();
+    } catch (e) {
+      String input = e.toString();
+      String substring = input.substring(input.indexOf("]") + 1);
+      Fluttertoast.showToast(
+        msg: "Fail to delete topping: $substring",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 2,
+        fontSize: 16.0,
+      );
+    }
+  }
 }

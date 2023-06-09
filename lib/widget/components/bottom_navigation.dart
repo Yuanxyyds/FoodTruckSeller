@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_truck_mobile/screen/account_screen.dart';
 import 'package:food_truck_mobile/screen/my_restaurant_screen.dart';
+import 'package:food_truck_mobile/screen/order_screen.dart';
 
 
 /// The Bottom Navigation Bar Component
@@ -36,7 +37,7 @@ class BottomNavigation extends StatelessWidget {
               screen = const MyRestaurantScreen();
               break;
             case 1:
-              screen = const MyRestaurantScreen();
+              screen = const OrderScreen();
               break;
             case 2:
               screen = const AccountScreen();

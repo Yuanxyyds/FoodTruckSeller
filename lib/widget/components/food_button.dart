@@ -37,10 +37,7 @@ class FoodButton extends StatelessWidget {
             PageRouteBuilder(
               pageBuilder: (context, animation, secondaryAnimation) =>
                   FoodDetailScreen(
-                      imageUrl: foodModel.foodUrl,
-                      foodName: foodModel.name,
-                      description: foodModel.description,
-                      price: foodModel.price,
+                      foodModel: foodModel,
                       isPopular: isPopular),
               transitionDuration: Duration.zero,
             ),
