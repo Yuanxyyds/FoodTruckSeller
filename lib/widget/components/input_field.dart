@@ -15,6 +15,7 @@ class InputField extends StatelessWidget {
     this.obscureText = false,
     this.borderRadius = 4,
     this.suffixIcon,
+    this.textInputType,
   });
 
   final String labelText;
@@ -26,6 +27,7 @@ class InputField extends StatelessWidget {
   final bool obscureText;
   final double borderRadius;
   final Widget? suffixIcon;
+  final TextInputType? textInputType;
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +48,7 @@ class InputField extends StatelessWidget {
         onChanged: onChange,
         focusNode: focusNode,
         controller: controller,
+        keyboardType: textInputType,
         decoration: InputDecoration(
           suffixIcon: suffixIcon,
           labelText: labelText,
