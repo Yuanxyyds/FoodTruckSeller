@@ -42,14 +42,18 @@ class FoodModel {
 
   factory FoodModel.fromSnapshot(var document) {
     final data = document.data();
+    Map<String, double> topping = <String, double>{};
+    data!['topping'].keys.forEach((item) {
+      topping[item] = double.tryParse(data!['topping'][item].toString()) ?? 0.0;
+    });
     return FoodModel(
-        id: document.id,
-        name: data!["name"],
-        description: data!["description"],
-        price: data!["price"],
-        foodUrl: data!["foodUrl"],
-        topping: data!['toppings'] ?? <String, double>{},
-        sectionId: data!['sectionId'],
+      id: document.id,
+      name: data!["name"],
+      description: data!["description"],
+      price: data!["price"],
+      foodUrl: data!["foodUrl"],
+      topping: topping,
+      sectionId: data!['sectionId'],
     );
   }
 }
