@@ -1,14 +1,14 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:food_truck_mobile/firebase/food_manager.dart';
 import 'package:food_truck_mobile/widget/components/input_field.dart';
-import 'package:food_truck_mobile/firebase/section_manager.dart';
 import 'package:food_truck_mobile/helper/constants.dart';
 import 'package:food_truck_mobile/widget/components/button.dart';
 import 'package:food_truck_mobile/widget/dialogs/delete_confirmation_dialog.dart';
 import 'package:food_truck_mobile/models/food_model.dart';
 
+/// A dialog shows when seller clicks on 'Edit Topping'. It includes options to
+/// update/delete Topping
 class EditToppingDialog extends StatefulWidget {
   const EditToppingDialog(
       {super.key,

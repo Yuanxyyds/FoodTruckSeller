@@ -1,8 +1,5 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:food_truck_mobile/firebase/section_manager.dart';
-
 import 'package:food_truck_mobile/firebase/restaurant_manager.dart';
 import 'package:food_truck_mobile/models/restaurant_model.dart';
 import 'package:food_truck_mobile/widget/components/food_button.dart';
@@ -10,8 +7,6 @@ import 'package:food_truck_mobile/widget/dialogs/create_food_dialog.dart';
 import 'package:food_truck_mobile/widget/dialogs/create_section_dialog.dart';
 import 'package:food_truck_mobile/widget/dialogs/edit_restaurant_dialog.dart';
 import 'package:food_truck_mobile/widget/dividers/menu_section_divider.dart';
-import 'package:food_truck_mobile/widget/dividers/section_divider.dart';
-import 'package:food_truck_mobile/widget/dividers/section_header_tb.dart';
 import 'package:food_truck_mobile/widget/text.dart';
 import 'package:food_truck_mobile/helper/constants.dart';
 import 'package:food_truck_mobile/widget/components/button.dart';
@@ -22,8 +17,7 @@ import 'package:food_truck_mobile/firebase/food_manager.dart';
 
 import 'package:food_truck_mobile/models/food_model.dart';
 
-/// The [ManageRestaurantScreen], the parameter should be future changes to a
-/// Restaurant Model
+/// The [ManageRestaurantScreen], A page seller can add section and food
 
 class ManageRestaurantScreen extends StatelessWidget {
   final RestaurantModel resModel;
@@ -156,7 +150,7 @@ class ManageRestaurantScreen extends StatelessWidget {
     );
   }
 
-  /// TODO: This should be future rebuild based on Section + items
+  /// Get Section and Food Instances
   Future<List<Widget>> _getContent(SectionManager sectionManager,
       FoodManager foodManager, String restaurantId) async {
     List<Widget> content = [];

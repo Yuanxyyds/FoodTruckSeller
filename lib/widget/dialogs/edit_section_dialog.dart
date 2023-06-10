@@ -8,6 +8,8 @@ import 'package:food_truck_mobile/widget/components/button.dart';
 import 'package:food_truck_mobile/widget/dialogs/delete_confirmation_dialog.dart';
 import 'package:food_truck_mobile/models/section_model.dart';
 
+/// A dialog shows when seller clicks on 'Edit Section'. It includes options to
+/// update/delete section
 class EditSectionDialog extends StatefulWidget {
   const EditSectionDialog(
       {super.key, required this.sectionManager, required this.sectionModel});

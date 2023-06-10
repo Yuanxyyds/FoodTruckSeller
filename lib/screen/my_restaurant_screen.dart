@@ -13,8 +13,8 @@ import 'package:food_truck_mobile/widget/components/button.dart';
 import 'package:food_truck_mobile/firebase/restaurant_manager.dart';
 
 
-/// The [MyRestaurantScreen] of this app, it has two screens: User Information
-/// Screen and the User Login Screen.
+/// The [MyRestaurantScreen], it shows all restaurants owned by the current
+/// seller
 
 class MyRestaurantScreen extends StatefulWidget {
   const MyRestaurantScreen({Key? key}) : super(key: key);
@@ -28,7 +28,7 @@ class _MyRestaurantScreenState extends State<MyRestaurantScreen> {
   @override
   Widget build(BuildContext context) {
     AuthManager auth = context.watch<AuthManager>();
-    RestaurantManager res = context.watch<RestaurantManager>();
+    RestaurantManager restaurantManager = context.watch<RestaurantManager>();
 
     return Scaffold(
       appBar: AppBar(
@@ -40,7 +40,7 @@ class _MyRestaurantScreenState extends State<MyRestaurantScreen> {
         currentIndex: 0,
       ),
       body: auth.currentUser != null
-          ? getContent(res, auth.currentUser!.uid)
+          ? getContent(restaurantManager, auth.currentUser!.uid)
           : const Center(child: TextHeadlineSmall(text: 'Login First!')),
     );
   }
@@ -80,16 +80,17 @@ class _MyRestaurantScreenState extends State<MyRestaurantScreen> {
     );
   }
 
-  Future<List<Widget>> getMyRestaurants(RestaurantManager res, String uid) async {
+  /// Get all restaurants owned by the current seller by sellerId
+  Future<List<Widget>> getMyRestaurants(RestaurantManager restaurantManager, String uid) async {
     List<Widget> myRestaurants = <Widget>[];
-    List<RestaurantModel>? restaurants = await res.getOwnedRestaurant(uid);
+    List<RestaurantModel>? restaurants = await restaurantManager.getOwnedRestaurant(uid);
     if (restaurants == null) {
       return myRestaurants;
     } else {
       for (var resModel in restaurants) {
         myRestaurants.add(RestaurantButton(
-          resModel: resModel,
-          restaurantManager: res,
+          restaurantModel: resModel,
+          restaurantManager: restaurantManager,
         ));
         myRestaurants.add(const SectionDivider());
       }

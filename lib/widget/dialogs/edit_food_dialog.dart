@@ -6,9 +6,10 @@ import 'package:food_truck_mobile/helper/constants.dart';
 import 'package:food_truck_mobile/widget/components/button.dart';
 import 'package:food_truck_mobile/firebase/food_manager.dart';
 import 'package:food_truck_mobile/models/section_model.dart';
-
 import 'delete_confirmation_dialog.dart';
 
+/// A dialog shows when seller clicks on 'Edit Food'. It includes options to
+/// update/delete food
 class EditFoodDialog extends StatefulWidget {
   const EditFoodDialog(
       {super.key,

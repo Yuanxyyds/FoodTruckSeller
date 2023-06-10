@@ -1,21 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:food_truck_mobile/firebase/section_manager.dart';
 import 'package:food_truck_mobile/models/restaurant_model.dart';
 import 'package:food_truck_mobile/models/section_model.dart';
-import 'package:food_truck_mobile/models/seller_model.dart';
-import 'package:food_truck_mobile/models/user_model.dart';
 
 import '../models/food_model.dart';
 import 'food_manager.dart';
 
-/// The main Auth instance that stores the information of the current user
+/// The main RestaurantManager instance (Provider) that manages the restaurant
+/// functions
 class RestaurantManager extends ChangeNotifier {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  /// Return the Current User's information
+  /// Create a new restaurant in Firestore based on the [RestaurantModel].
+  /// RestaurantId starts with the sellerId
   Future<void> createRestaurant(RestaurantModel restaurantModel) async {
     try {
       String restaurantId = restaurantModel.id!;
@@ -44,7 +43,7 @@ class RestaurantManager extends ChangeNotifier {
     }
   }
 
-  /// Return the Current User's information
+  /// Update a restaurant in Firestore based on the new [RestaurantModel]
   Future<void> updateRestaurant(RestaurantModel restaurantModel) async {
     try {
       CollectionReference res = _firestore.collection('restaurants');
@@ -71,7 +70,7 @@ class RestaurantManager extends ChangeNotifier {
     }
   }
 
-  /// Return the Current User's information
+  /// Return all sellers owned restaurants using seller's id
   Future<List<RestaurantModel>?> getOwnedRestaurant(String uid) async {
     try {
       List<RestaurantModel> myRestaurants = <RestaurantModel>[];
@@ -98,6 +97,9 @@ class RestaurantManager extends ChangeNotifier {
     return null;
   }
 
+  /// Delete a restaurant instance from Firestore by restaurant id. Notice this
+  /// will also deletes the sections and food instances associated with this
+  /// restaurant.
   Future<void> deleteRestaurant(String id) async {
     try {
       FoodManager foodManager = FoodManager();

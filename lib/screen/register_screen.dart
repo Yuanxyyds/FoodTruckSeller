@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import '../firebase/auth_manager.dart';
 
 /// TODO: [RegisterScreen] UI not implemented yet.
-/// The [RegisterScreen] that allows user to register a new account
+/// The [RegisterScreen] that allows seller to register a new account
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
 

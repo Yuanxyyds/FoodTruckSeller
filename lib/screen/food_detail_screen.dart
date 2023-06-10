@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_truck_mobile/firebase/food_manager.dart';
 import 'package:food_truck_mobile/models/food_model.dart';
-import 'package:food_truck_mobile/widget/components/add_topping.dart';
+import 'package:food_truck_mobile/widget/components/topping.dart';
 import 'package:food_truck_mobile/widget/components/button.dart';
 import 'package:food_truck_mobile/widget/dialogs/create_topping_dialog.dart';
 import 'package:food_truck_mobile/widget/text.dart';
@@ -10,6 +10,9 @@ import 'package:food_truck_mobile/widget/decorations/popular_tag.dart';
 import 'package:food_truck_mobile/widget/dividers/section_divider.dart';
 import 'package:provider/provider.dart';
 
+/// The [FoodDetailScreen] that shows the detailed information of the food, and
+/// topping options. Also Seller can edit food/topping information at this
+/// screen
 class FoodDetailScreen extends StatefulWidget {
   final FoodModel foodModel;
   final bool isPopular;
@@ -122,10 +125,11 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
     );
   }
 
+  /// Method to get all topping of the current foodModel
   List<Widget> _getContent(FoodManager foodManager) {
     List<Widget> content = [];
     for (var element in widget.foodModel.topping.keys) {
-      content.add(AddTopping(
+      content.add(Topping(
         name: element,
         price: widget.foodModel.topping[element]!,
         foodManager: foodManager,

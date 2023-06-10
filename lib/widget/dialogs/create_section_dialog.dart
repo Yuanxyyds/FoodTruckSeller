@@ -1,13 +1,12 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:food_truck_mobile/models/restaurant_model.dart';
 import 'package:food_truck_mobile/models/section_model.dart';
 import 'package:food_truck_mobile/widget/components/input_field.dart';
 import 'package:food_truck_mobile/firebase/section_manager.dart';
 import 'package:food_truck_mobile/helper/constants.dart';
 import 'package:food_truck_mobile/widget/components/button.dart';
 
+/// A dialog shows when seller clicks on 'Add Section'
 class CreateSectionDialog extends StatefulWidget {
   const CreateSectionDialog(
       {super.key, required this.sectionManager, required this.restaurantId});

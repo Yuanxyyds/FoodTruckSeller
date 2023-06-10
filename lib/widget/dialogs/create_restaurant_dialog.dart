@@ -7,6 +7,7 @@ import 'package:food_truck_mobile/firebase/restaurant_manager.dart';
 import 'package:food_truck_mobile/helper/constants.dart';
 import 'package:food_truck_mobile/widget/components/button.dart';
 
+/// A dialog shows when seller clicks on 'Create Restaurant'
 class CreateRestaurantDialog extends StatefulWidget {
   const CreateRestaurantDialog(
       {super.key, required this.restaurantManager, required this.uid});

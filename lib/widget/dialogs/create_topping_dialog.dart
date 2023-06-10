@@ -7,6 +7,7 @@ import 'package:food_truck_mobile/widget/components/button.dart';
 
 import 'package:food_truck_mobile/firebase/food_manager.dart';
 
+/// A dialog shows when seller clicks on 'Add Topping'
 class CreateToppingDialog extends StatefulWidget {
   const CreateToppingDialog(
       {super.key, required this.foodManager, required this.foodModel});

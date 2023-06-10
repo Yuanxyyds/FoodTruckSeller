@@ -5,12 +5,14 @@ import 'package:food_truck_mobile/firebase/food_manager.dart';
 import 'package:food_truck_mobile/models/section_model.dart';
 import 'package:food_truck_mobile/models/food_model.dart';
 
-/// The main Auth instance that stores the information of the current user
+/// The main SectionManager instance (Provider) that manages the functions of
+/// sections
 class SectionManager extends ChangeNotifier {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
 
-  /// Return the Current User's information
+  /// Create a new section based on the [SectionModel]. Notice that the unique
+  /// SectionId is generated based on the RestaurantId
   Future<void> createSection(SectionModel sectionModel) async {
     try {
       CollectionReference section = _firestore.collection('sections');
@@ -37,7 +39,7 @@ class SectionManager extends ChangeNotifier {
     }
   }
 
-  /// Return the Current User's information
+  /// Update the section instance based on the new [SectionModel]
   Future<void> updateSection(SectionModel sectionModel) async {
     try {
       CollectionReference res = _firestore.collection('sections');
@@ -64,7 +66,7 @@ class SectionManager extends ChangeNotifier {
     }
   }
 
-  /// Return the Current User's information
+  /// Return all sections in a restaurant searching by restaurantId
   Future<List<SectionModel>?> getOwnedSection(String restaurantId) async {
     try {
       List<SectionModel> mySections = <SectionModel>[];
@@ -91,6 +93,8 @@ class SectionManager extends ChangeNotifier {
     return null;
   }
 
+  /// Delete a section from firestore by SectionId. A section can be delete only
+  /// if there is no food in it.
   Future<void> deleteSection(String id) async {
     try {
       FoodManager foodManager = FoodManager();

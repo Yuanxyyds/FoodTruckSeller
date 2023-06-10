@@ -5,8 +5,7 @@ import 'package:food_truck_mobile/widget/text.dart';
 
 import 'package:food_truck_mobile/firebase/section_manager.dart';
 
-/// This class contains Header Option, which text is in between of (top and
-/// bottom) by two horizontal dividers.
+/// This class contains Header TB of section, with a button to edit section.
 class MenuSectionDivider extends StatelessWidget {
   const MenuSectionDivider(
       {super.key, required this.sectionModel, required this.sectionManager});
