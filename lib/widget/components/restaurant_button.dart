@@ -6,18 +6,19 @@ import 'package:food_truck_mobile/widget/components/button.dart';
 import 'package:food_truck_mobile/widget/dialogs/delete_confirmation_dialog.dart';
 import 'package:food_truck_mobile/widget/text.dart';
 import 'package:food_truck_mobile/firebase/restaurant_manager.dart';
+import 'package:flutter_switch/flutter_switch.dart';
 
-/// This is the Restaurant Button on the Home Screen, Slightly different UI than
-/// [HomeRestaurantButton]
+/// This is the Restaurant Button, allows seller the delete, change the status
+/// of the restaurant and navigate to the manage page.
 
 class RestaurantButton extends StatelessWidget {
   const RestaurantButton({
     super.key,
-    required this.resModel,
+    required this.restaurantModel,
     required this.restaurantManager,
   });
 
-  final RestaurantModel resModel;
+  final RestaurantModel restaurantModel;
   final RestaurantManager restaurantManager;
 
   @override
@@ -30,7 +31,7 @@ class RestaurantButton extends StatelessWidget {
             color: Colors.transparent, borderRadius: BorderRadius.circular(8)),
         child: Row(
           children: [
-            if (resModel.restaurantUrl == null)
+            if (restaurantModel.restaurantUrl == null)
               Expanded(
                 flex: 2,
                 child: Container(
@@ -46,7 +47,7 @@ class RestaurantButton extends StatelessWidget {
                   ),
                 ),
               ),
-            if (resModel.restaurantUrl != null)
+            if (restaurantModel.restaurantUrl != null)
               Expanded(
                 flex: 2,
                 child: Container(
@@ -55,7 +56,7 @@ class RestaurantButton extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8),
                     image: DecorationImage(
                       image: AssetImage(
-                        resModel.restaurantUrl,
+                        restaurantModel.restaurantUrl,
                       ),
                       fit: BoxFit.fill,
                     ),
@@ -69,17 +70,36 @@ class RestaurantButton extends StatelessWidget {
                 flex: 3,
                 child: Column(
                   children: [
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: TextTitleMedium(
-                        text: resModel.name,
-                        isBold: true,
-                      ),
+                    Row(
+                      children: [
+                        Expanded(
+                          flex: 2,
+                          child: Align(
+                            alignment: Alignment.topLeft,
+                            child: TextTitleMedium(
+                              text: restaurantModel.name,
+                              isBold: true,
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: FlutterSwitch(
+                              value: restaurantModel.isOpen,
+                              borderRadius: 30.0,
+                              showOnOff: true,
+                              onToggle: (val) {
+                                restaurantModel.isOpen =
+                                    !(restaurantModel.isOpen);
+                                restaurantManager
+                                    .updateRestaurant(restaurantModel);
+                              }),
+                        ),
+                      ],
                     ),
                     Align(
                       alignment: Alignment.topLeft,
                       child: TextLabelMedium(
-                        text: resModel.isOpen ? 'Open' : 'Close',
+                        text: restaurantModel.isOpen ? 'Open' : 'Close',
                         isBold: true,
                         padding: const EdgeInsets.symmetric(
                           horizontal: 4,
@@ -103,7 +123,8 @@ class RestaurantButton extends StatelessWidget {
                                     return DeleteConfirmationDialog(
                                       onDelete: () async {
                                         await restaurantManager
-                                            .deleteRestaurant(resModel.id!);
+                                            .deleteRestaurant(
+                                                restaurantModel.id!);
                                         if (context.mounted) {
                                           Navigator.of(context).pop();
                                         }
@@ -129,7 +150,7 @@ class RestaurantButton extends StatelessWidget {
                                     pageBuilder: (context, animation,
                                             secondaryAnimation) =>
                                         ManageRestaurantScreen(
-                                      resModel: resModel,
+                                      resModel: restaurantModel,
                                     ),
                                     transitionDuration: Duration.zero,
                                   ),

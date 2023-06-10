@@ -11,7 +11,7 @@ import 'package:food_truck_mobile/widget/text.dart';
 import 'package:food_truck_mobile/models/section_model.dart';
 
 /// This class contains a [FoodButton] that can be pressed to view the food's
-/// details
+/// details. Also contains a button to edit the [FoodModel]
 class FoodButton extends StatelessWidget {
   const FoodButton(
       {super.key,

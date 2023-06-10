@@ -4,10 +4,9 @@ import 'package:food_truck_mobile/widget/components/button.dart';
 import 'package:provider/provider.dart';
 import 'package:food_truck_mobile/firebase/auth_manager.dart';
 import 'package:food_truck_mobile/models/seller_model.dart';
-import 'package:food_truck_mobile/models/user_model.dart';
 import 'package:food_truck_mobile/widget/components/input_field.dart';
 
-
+/// A Page that allows User to edit their profile
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({Key? key, required this.sellerModel})
       : super(key: key);

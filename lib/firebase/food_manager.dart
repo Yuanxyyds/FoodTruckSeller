@@ -1,18 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:food_truck_mobile/models/food_model.dart';
-import 'package:food_truck_mobile/models/restaurant_model.dart';
-import 'package:food_truck_mobile/models/section_model.dart';
-import 'package:food_truck_mobile/models/seller_model.dart';
-import 'package:food_truck_mobile/models/user_model.dart';
 
-/// The main Auth instance that stores the information of the current user
+/// The main FoodManager instance (Provider) that manages the food functions
 class FoodManager extends ChangeNotifier {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  /// Return the Current User's information
+  /// Create a new food instance in Firestore based on the [FoodModel]
   Future<void> createFood(FoodModel foodModel) async {
     try {
       CollectionReference food = _firestore.collection('foods');
@@ -39,7 +34,7 @@ class FoodManager extends ChangeNotifier {
     }
   }
 
-  /// Return the Current User's information
+  /// Update the food instance based on the new [FoodModel]
   Future<void> updateFood(FoodModel foodModel) async {
     try {
       CollectionReference food = _firestore.collection('foods');
@@ -66,7 +61,7 @@ class FoodManager extends ChangeNotifier {
     }
   }
 
-  /// Return the Current User's information
+  /// Find all foods created under this restaurant
   Future<List<FoodModel>?> getFoodByRestaurant(String restaurantId) async {
     try {
       List<FoodModel> myFoods = <FoodModel>[];
@@ -93,7 +88,7 @@ class FoodManager extends ChangeNotifier {
     return null;
   }
 
-  /// Return the Current User's information
+  /// Return all foods under certain section (by sectionId)
   Future<List<FoodModel>?> getFoodBySection(String sectionId) async {
     try {
       List<FoodModel> myFoods = <FoodModel>[];
@@ -119,6 +114,7 @@ class FoodManager extends ChangeNotifier {
     return null;
   }
 
+  /// Delete the food instance in Firestore based on the food id
   Future<void> deleteFood(String id) async {
     try {
       await FirebaseFirestore.instance.collection('foods').doc(id).delete();
@@ -143,7 +139,7 @@ class FoodManager extends ChangeNotifier {
     }
   }
 
-  /// Return the Current User's information
+  /// Add a new topping (topping name, topping price) to the given [FoodModel]
   Future<void> addTopping(
       FoodModel foodModel, String name, double price) async {
     try {
@@ -170,7 +166,7 @@ class FoodManager extends ChangeNotifier {
     }
   }
 
-  /// Return the Current User's information
+  /// Update the topping (topping name, topping price) to the given [FoodModel]
   Future<void> updateTopping(
       FoodModel foodModel, String name, double price, String oldName) async {
     try {
@@ -198,7 +194,7 @@ class FoodManager extends ChangeNotifier {
     }
   }
 
-  /// Return the Current User's information
+  /// Delete the topping (by topping name) from given [FoodModel]
   Future<void> deleteTopping(FoodModel foodModel, String name) async {
     try {
       foodModel.removeTopping(name);

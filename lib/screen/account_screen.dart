@@ -15,8 +15,8 @@ import 'package:food_truck_mobile/widget/components/bottom_navigation.dart';
 import 'package:food_truck_mobile/widget/components/button.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-/// The [AccountScreen] of this app, it has two screens: User Information
-/// Screen and the User Login Screen.
+/// The [AccountScreen] of this app, it has two screens: Seller Information
+/// Screen and the Seller Login Screen.
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({Key? key}) : super(key: key);
@@ -179,7 +179,7 @@ class _AccountScreenState extends State<AccountScreen> {
     return false;
   }
 
-  /// User Information State, Currently support retrieving data from Firebase
+  /// Seller Information State, Currently support retrieving data from Firebase
   /// The Implementation of this function has precondition that the current
   /// state has an currentUser instance.
   /// TODO: UI is not implemented

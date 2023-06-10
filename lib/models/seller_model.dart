@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 /// The [SellerModel]
 class SellerModel {
   String? id;

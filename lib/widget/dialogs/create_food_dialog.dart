@@ -7,6 +7,7 @@ import 'package:food_truck_mobile/widget/components/button.dart';
 import 'package:food_truck_mobile/firebase/food_manager.dart';
 import 'package:food_truck_mobile/models/section_model.dart';
 
+/// A dialog shows when seller clicks on 'Add Food'
 class CreateFoodDialog extends StatefulWidget {
   const CreateFoodDialog(
       {super.key,

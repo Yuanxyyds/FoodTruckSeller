@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:food_truck_mobile/firebase/food_manager.dart';
-import 'package:food_truck_mobile/helper/constants.dart';
 import 'package:food_truck_mobile/widget/dialogs/edit_topping_dialog.dart';
-
 import 'package:food_truck_mobile/models/food_model.dart';
 
-class AddTopping extends StatefulWidget {
+/// The class contains [Topping] instance and associate functions to edit/create
+/// Toppings
+class Topping extends StatefulWidget {
   final String name;
   final double price;
   final FoodManager foodManager;
   final FoodModel foodModel;
 
-  const AddTopping({
+  const Topping({
     Key? key,
     required this.name,
     required this.price,
@@ -20,10 +20,10 @@ class AddTopping extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<AddTopping> createState() => _AddToppingState();
+  State<Topping> createState() => _ToppingState();
 }
 
-class _AddToppingState extends State<AddTopping> {
+class _ToppingState extends State<Topping> {
   @override
   Widget build(BuildContext context) {
     return Row(

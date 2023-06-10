@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// A Delete confirmation dialog
 class DeleteConfirmationDialog extends StatelessWidget {
   final VoidCallback onDelete;
 
