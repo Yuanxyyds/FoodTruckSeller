@@ -2,8 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:food_truck_mobile/models/restaurant_model.dart';
+import 'package:food_truck_mobile/screen/set_address_map_screen.dart';
 import 'package:food_truck_mobile/widget/components/input_field.dart';
-import 'package:food_truck_mobile/firebase/restaurant_manager.dart';
+import 'package:food_truck_mobile/providers/restaurant_manager.dart';
 import 'package:food_truck_mobile/helper/constants.dart';
 import 'package:food_truck_mobile/widget/components/button.dart';
 
@@ -51,10 +52,16 @@ class _CreateRestaurantDialogState extends State<CreateRestaurantDialog> {
               controller: _descriptionController,
             ),
             InputField(
-              labelText: 'Address',
-              prefixIcon: const Icon(Icons.location_on),
-              controller: _addressController,
-            ),
+                labelText: 'Address',
+                prefixIcon: const Icon(Icons.location_on),
+                controller: _addressController,
+                readOnly: true,
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => SetAddressMapScreen(
+                            addressController: _addressController,
+                          )));
+                }),
           ],
         ),
       ),

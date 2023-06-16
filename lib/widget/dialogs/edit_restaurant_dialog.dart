@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:food_truck_mobile/models/restaurant_model.dart';
+import 'package:food_truck_mobile/screen/set_address_map_screen.dart';
 import 'package:food_truck_mobile/widget/components/input_field.dart';
-import 'package:food_truck_mobile/firebase/restaurant_manager.dart';
+import 'package:food_truck_mobile/providers/restaurant_manager.dart';
 import 'package:food_truck_mobile/helper/constants.dart';
 import 'package:food_truck_mobile/widget/components/button.dart';
 import 'package:food_truck_mobile/widget/dialogs/delete_confirmation_dialog.dart';
@@ -75,11 +76,12 @@ class _EditRestaurantDialogState extends State<EditRestaurantDialog> {
                 labelText: 'Address',
                 prefixIcon: const Icon(Icons.location_on),
                 controller: _addressController,
+                readOnly: true,
                 onTap: () {
-                  _addressController.selection = TextSelection(
-                    baseOffset: 0,
-                    extentOffset: _addressController.value.text.length,
-                  );
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => SetAddressMapScreen(
+                            addressController: _addressController,
+                          )));
                 }),
           ],
         ),

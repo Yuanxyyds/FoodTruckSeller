@@ -4,7 +4,7 @@ import 'package:food_truck_mobile/models/food_model.dart';
 import 'package:food_truck_mobile/widget/components/input_field.dart';
 import 'package:food_truck_mobile/helper/constants.dart';
 import 'package:food_truck_mobile/widget/components/button.dart';
-import 'package:food_truck_mobile/firebase/food_manager.dart';
+import 'package:food_truck_mobile/providers/food_manager.dart';
 import 'package:food_truck_mobile/models/section_model.dart';
 
 /// A dialog shows when seller clicks on 'Add Food'
@@ -48,39 +48,40 @@ class _CreateFoodDialogState extends State<CreateFoodDialog> {
 
     return AlertDialog(
       title: const Text('Add Food'),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          InputField(
-            labelText: 'Food Name',
-            prefixIcon: const Icon(Icons.fastfood),
-            controller: _nameController,
-          ),
-          InputField(
-            labelText: 'Description',
-            prefixIcon: const Icon(Icons.description),
-            controller: _descriptionController,
-          ),
-          InputField(
-            labelText: 'Price',
-            prefixIcon: const Icon(Icons.attach_money),
-            controller: _priceController,
-            textInputType:
-                const TextInputType.numberWithOptions(decimal: true),
-          ),
-          Container(
-            color: Constants.whiteColor,
-            child: DropdownMenu<SectionModel>(
-              width: 230,
-              leadingIcon: const Icon(Icons.line_weight),
-              hintText: 'Section',
-              dropdownMenuEntries: options,
-              onSelected: (sectionModel) {
-                sectionId = sectionModel!.id!;
-              },
+      content: SingleChildScrollView(
+        child: Column(
+          children: [
+            InputField(
+              labelText: 'Food Name',
+              prefixIcon: const Icon(Icons.fastfood),
+              controller: _nameController,
             ),
-          ),
-        ],
+            InputField(
+              labelText: 'Description',
+              prefixIcon: const Icon(Icons.description),
+              controller: _descriptionController,
+            ),
+            InputField(
+              labelText: 'Price',
+              prefixIcon: const Icon(Icons.attach_money),
+              controller: _priceController,
+              textInputType:
+                  const TextInputType.numberWithOptions(decimal: true),
+            ),
+            Container(
+              color: Constants.whiteColor,
+              child: DropdownMenu<SectionModel>(
+                width: 230,
+                leadingIcon: const Icon(Icons.line_weight),
+                hintText: 'Section',
+                dropdownMenuEntries: options,
+                onSelected: (sectionModel) {
+                  sectionId = sectionModel!.id!;
+                },
+              ),
+            ),
+          ],
+        ),
       ),
       actions: [
         Button(

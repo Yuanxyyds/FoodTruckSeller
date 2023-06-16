@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -6,7 +7,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:ui' as ui;
 
 
-/// A Google Map Widget
 class MapWidget extends StatefulWidget {
   const MapWidget({
     super.key,
@@ -44,19 +44,6 @@ class _MapWidgetState extends State<MapWidget> {
         ),
       },
     );
-    data.add({
-      'id': '1',
-      'globalKey': GlobalKey(),
-      'position': LatLng(widget.currentUserLocation.latitude! + 0.005,
-          widget.currentUserLocation.longitude! + 0.005),
-      'widget': const Center(
-        child: CircleAvatar(
-          radius: 40,
-          backgroundImage: AssetImage('images/UnknownUser.jpg'),
-        ),
-      ),
-    }
-    );
     WidgetsBinding.instance?.addPostFrameCallback((_) => _onBuildCompleted());
   }
 
@@ -64,30 +51,30 @@ class _MapWidgetState extends State<MapWidget> {
   Widget build(BuildContext context) {
     return _isLoaded
         ? GoogleMap(
-            myLocationButtonEnabled: false,
-            initialCameraPosition: CameraPosition(
-                target: widget.currentUserLocation,
-                zoom: 14),
-            onMapCreated: (GoogleMapController controller) {
-              _controller.complete(controller);
-            },
-            markers: _usersMarkers,
-          )
+      myLocationButtonEnabled: false,
+      initialCameraPosition: CameraPosition(
+          target: widget.currentUserLocation,
+          zoom: 14),
+      onMapCreated: (GoogleMapController controller) {
+        _controller.complete(controller);
+      },
+      markers: _usersMarkers,
+    )
         : ListView(
-            children: [
-              for (int i = 0; i < data.length; i++)
-                Transform.translate(
-                  offset: Offset(
-                    -MediaQuery.of(context).size.width * 2,
-                    -MediaQuery.of(context).size.height * 2,
-                  ),
-                  child: RepaintBoundary(
-                    key: data[i]['globalKey'],
-                    child: data[i]['widget'],
-                  ),
-                )
-            ],
-          );
+      children: [
+        for (int i = 0; i < data.length; i++)
+          Transform.translate(
+            offset: Offset(
+              -MediaQuery.of(context).size.width * 2,
+              -MediaQuery.of(context).size.height * 2,
+            ),
+            child: RepaintBoundary(
+              key: data[i]['globalKey'],
+              child: data[i]['widget'],
+            ),
+          )
+      ],
+    );
   }
 
   Future<void> _onBuildCompleted() async {
@@ -97,15 +84,16 @@ class _MapWidgetState extends State<MapWidget> {
         _usersMarkers.add(marker);
       }),
     );
-     setState(() {
+    setState(() {
       _isLoaded = true;
     });
   }
 
   Future<Marker> _generateMarkersFromWidgets(Map<String, dynamic> data) async {
+    await Future.delayed(const Duration(milliseconds: 50));
     BuildContext? context = data['globalKey'].currentContext;
     RenderRepaintBoundary boundary =
-        context?.findRenderObject() as RenderRepaintBoundary;
+    context?.findRenderObject() as RenderRepaintBoundary;
     ui.Image image = await boundary.toImage(pixelRatio: 2);
     ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
 

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:food_truck_mobile/widget/components/button.dart';
 import 'package:provider/provider.dart';
-import 'package:food_truck_mobile/firebase/auth_manager.dart';
+import 'package:food_truck_mobile/providers/auth_manager.dart';
 import 'package:food_truck_mobile/models/seller_model.dart';
 import 'package:food_truck_mobile/widget/components/input_field.dart';
 

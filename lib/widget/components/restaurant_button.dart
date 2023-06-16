@@ -5,7 +5,7 @@ import 'package:food_truck_mobile/screen/manage_restaurant_screen.dart';
 import 'package:food_truck_mobile/widget/components/button.dart';
 import 'package:food_truck_mobile/widget/dialogs/delete_confirmation_dialog.dart';
 import 'package:food_truck_mobile/widget/text.dart';
-import 'package:food_truck_mobile/firebase/restaurant_manager.dart';
+import 'package:food_truck_mobile/providers/restaurant_manager.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 
 /// This is the Restaurant Button, allows seller the delete, change the status
