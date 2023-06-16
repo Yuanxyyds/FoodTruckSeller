@@ -47,6 +47,7 @@ dependencies:
   google_maps_flutter: ^2.2.8
   location: ^4.4.0
   flutter_switch: ^0.3.2
+  permission_handler: ^10.3.0
 
 dev_dependencies:
   flutter_test:

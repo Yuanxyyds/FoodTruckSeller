@@ -7,7 +7,7 @@ class InputField extends StatelessWidget {
   InputField({
     super.key,
     required this.labelText,
-    required this.prefixIcon,
+    this.prefixIcon,
     this.controller,
     this.onChange,
     this.onTap,
@@ -16,10 +16,11 @@ class InputField extends StatelessWidget {
     this.borderRadius = 4,
     this.suffixIcon,
     this.textInputType,
+    this.readOnly = false,
   });
 
   final String labelText;
-  final Widget prefixIcon;
+  final Widget? prefixIcon;
   final TextEditingController? controller;
   final ValueSetter<String>? onChange;
   final VoidCallback? onTap;
@@ -28,6 +29,7 @@ class InputField extends StatelessWidget {
   final double borderRadius;
   final Widget? suffixIcon;
   final TextInputType? textInputType;
+  final bool readOnly;
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +45,7 @@ class InputField extends StatelessWidget {
         ],
       ),
       child: TextField(
+        readOnly: readOnly,
         onTap: onTap,
         obscureText: obscureText,
         onChanged: onChange,

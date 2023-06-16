@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:food_truck_mobile/firebase/food_manager.dart';
+import 'package:food_truck_mobile/providers/food_manager.dart';
 import 'package:food_truck_mobile/helper/constants.dart';
 import 'package:food_truck_mobile/models/food_model.dart';
 import 'package:food_truck_mobile/screen/food_detail_screen.dart';
@@ -81,7 +81,7 @@ class FoodButton extends StatelessWidget {
                               text: '\$ ${foodModel.price}',
                               isBold: true,
                             )),
-                            if (isPopular) const PopularTag(),
+                            // if (isPopular) const PopularTag(),
                             Expanded(
                               flex: 1,
                               child: IconButton(

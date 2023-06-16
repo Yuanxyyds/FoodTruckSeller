@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:food_truck_mobile/widget/text.dart';
+
+import '../text.dart';
 
 /// This class contains the [TextButton] for the entire app
 class Button extends StatelessWidget {
@@ -28,8 +29,8 @@ class Button extends StatelessWidget {
   Widget build(BuildContext context) {
     final Color defaultTextColor =
         textColor ?? Theme.of(context).textTheme.labelLarge!.color!;
-    final Color defaultBackgroundColor = backgroundColor ??
-        Theme.of(context).buttonTheme.colorScheme!.primary;
+    final Color defaultBackgroundColor =
+        backgroundColor ?? Theme.of(context).buttonTheme.colorScheme!.primary;
 
     return TextButton(
       onPressed: isEnabled ? onPressed : null,
@@ -45,12 +46,15 @@ class Button extends StatelessWidget {
             if (icon != null) Icon(icon),
             if (icon != null && text != null) const SizedBox(width: 8),
             if (text != null)
-            Flexible(
-                child: TextBodyMedium(
-              text: text!,
-              isBold: true,
-              color: defaultTextColor,
-            )),
+              Flexible(
+                child: Center(
+                  child: TextBodyMedium(
+                    text: text!,
+                    isBold: true,
+                    color: defaultTextColor,
+                  ),
+                ),
+              ),
           ],
         ),
       ),

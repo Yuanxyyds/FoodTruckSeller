@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:food_truck_mobile/firebase/auth_manager.dart';
+import 'package:food_truck_mobile/providers/auth_manager.dart';
 import 'package:food_truck_mobile/icons/google_icon.dart';
 import 'package:food_truck_mobile/models/user_model.dart';
 import 'package:food_truck_mobile/screen/edit_profile_screen.dart';

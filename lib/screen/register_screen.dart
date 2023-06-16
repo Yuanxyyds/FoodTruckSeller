@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../firebase/auth_manager.dart';
+import '../providers/auth_manager.dart';
 
 /// TODO: [RegisterScreen] UI not implemented yet.
 /// The [RegisterScreen] that allows seller to register a new account

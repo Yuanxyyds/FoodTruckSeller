@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:food_truck_mobile/firebase/section_manager.dart';
-import 'package:food_truck_mobile/firebase/restaurant_manager.dart';
+import 'package:food_truck_mobile/providers/section_manager.dart';
+import 'package:food_truck_mobile/providers/restaurant_manager.dart';
 import 'package:food_truck_mobile/models/restaurant_model.dart';
 import 'package:food_truck_mobile/widget/components/food_button.dart';
 import 'package:food_truck_mobile/widget/dialogs/create_food_dialog.dart';
@@ -13,7 +13,7 @@ import 'package:food_truck_mobile/widget/components/button.dart';
 import 'package:provider/provider.dart';
 
 import 'package:food_truck_mobile/models/section_model.dart';
-import 'package:food_truck_mobile/firebase/food_manager.dart';
+import 'package:food_truck_mobile/providers/food_manager.dart';
 
 import 'package:food_truck_mobile/models/food_model.dart';
 

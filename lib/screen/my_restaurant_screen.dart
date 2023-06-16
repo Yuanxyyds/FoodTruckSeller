@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:food_truck_mobile/firebase/auth_manager.dart';
+import 'package:food_truck_mobile/providers/auth_manager.dart';
 import 'package:food_truck_mobile/models/restaurant_model.dart';
 import 'package:food_truck_mobile/widget/dialogs/create_restaurant_dialog.dart';
 import 'package:food_truck_mobile/widget/components/restaurant_button.dart';
@@ -10,7 +10,7 @@ import 'package:food_truck_mobile/helper/constants.dart';
 import 'package:food_truck_mobile/widget/components/bottom_navigation.dart';
 import 'package:food_truck_mobile/widget/components/button.dart';
 
-import 'package:food_truck_mobile/firebase/restaurant_manager.dart';
+import 'package:food_truck_mobile/providers/restaurant_manager.dart';
 
 
 /// The [MyRestaurantScreen], it shows all restaurants owned by the current

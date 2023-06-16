@@ -3,7 +3,7 @@ import 'package:food_truck_mobile/models/section_model.dart';
 import 'package:food_truck_mobile/widget/dialogs/edit_section_dialog.dart';
 import 'package:food_truck_mobile/widget/text.dart';
 
-import 'package:food_truck_mobile/firebase/section_manager.dart';
+import 'package:food_truck_mobile/providers/section_manager.dart';
 
 /// This class contains Header TB of section, with a button to edit section.
 class MenuSectionDivider extends StatelessWidget {

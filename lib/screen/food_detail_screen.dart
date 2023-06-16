@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:food_truck_mobile/firebase/food_manager.dart';
+import 'package:food_truck_mobile/providers/food_manager.dart';
 import 'package:food_truck_mobile/models/food_model.dart';
 import 'package:food_truck_mobile/widget/components/topping.dart';
 import 'package:food_truck_mobile/widget/dialogs/create_topping_dialog.dart';
