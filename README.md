@@ -1,17 +1,5 @@
+## CampusEats Seller Version 1.0
 
-|# food_truck_seller
+This repository serves as an extension to the UofT FoodTruck Project, specifically catering to the seller-end functionality. It includes features such as account creation, account editing, restaurant creation, food item creation, and seamless integration with the backend for communication with the user-end.
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+To further enhance functionality and improve the user interface, development for this version has been halted. The latest and updated version can be accessed at the following link: https://liustev6.ca/project-campusEats#campusEats2. Here, you can explore the newest version of the CampusEats project with improved features and a refined user experience.
